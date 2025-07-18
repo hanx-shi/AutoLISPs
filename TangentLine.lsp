@@ -22,8 +22,7 @@
   ;; Compute the normal vector from center to point on arc
   (setq normal (mapcar '- pointOnArc center))
 
-  ;; Compute perpendicular (tangent) vector
-  ;; For 2D, tangent is perpendicular: (x, y) → (-y, x)
+  ;; Compute perpendicular (tangent) vector in 2D: (x, y) → (-y, x)
   (setq tanVector (list (- (cadr normal)) (car normal) 0.0))
 
   ;; Ensure tangent vector points toward the extension point
@@ -32,13 +31,13 @@
     (setq tanVector (mapcar '* tanVector '(-1 -1 -1)))
   )
 
-  ;; Normalize tangent vector to length (e.g., 100 units)
+  ;; Normalize tangent vector to length 10
   (defun normalize (v / len)
     (setq len (sqrt (apply '+ (mapcar '* v v))))
     (if (/= len 0) (mapcar (function (lambda (x) (/ x len))) v) v)
   )
 
-  (setq tanVector (mapcar '* (normalize tanVector) '(100.0 100.0 100.0)))
+  (setq tanVector (mapcar '* (normalize tanVector) '(10.0 10.0 10.0)))
   (setq lineEnd (mapcar '+ pointOnArc tanVector))
 
   ;; Draw the tangent line
@@ -47,7 +46,6 @@
       (cons 0 "LINE")
       (cons 10 pointOnArc)
       (cons 11 lineEnd)
-      (cons 62 1) ;; color red
     )
   )
 
